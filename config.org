@@ -1,0 +1,34 @@
+#+TITLE: My Config!
+
+Place your private configuration here! Remember, you do not need to run 'doom
+sync' after modifying this file!
+
+* My Deets
+
+#+BEGIN_SRC elisp
+(setq user-full-name "ii friend"
+      user-mail-address "ii@ii.nz")
+
+#+END_SRC
+* Appearance
+** Fonts
+;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
+;; are the three important ones:
+#+BEGIN_SRC elisp
+(setq doom-font (font-spec :family "Source Code Pro" :size 12 :weight 'semi-light)
+      doom-variable-pitch-font (font-spec :family "Source Code Pro" :size 13)
+      doom-big-font (font-spec :family "Source Code Pro" :size 15))
+#+END_SRC
+** Theme
+#+BEGIN_SRC elisp
+(setq doom-theme 'almost-mono-gray)
+#+END_SRC
+** Indent
+#+BEGIN_SRC elisp
+(setq standard-indent 2)
+#+END_SRC
+* Ergonomics
+I got used to using comma as the localleader key, from spacemacs, so i keeep it.
+#+BEGIN_SRC elisp
+(setq doom-localleader-key ",")
+#+END_SRC
