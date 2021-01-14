@@ -1,14 +1,24 @@
 #+TITLE: My Config!
+#+PROPERTY: header-args:elisp+ :results silent
 
-Place your private configuration here! Remember, you do not need to run 'doom
-sync' after modifying this file!
-
-* My Deets
-
+*  Humac Human Deets
+On a sharing.io cluster, we should have these two env vars set...so we can personalize to the person who started the instance.
+Otherwise, they're just a friend.
 #+BEGIN_SRC elisp
-(setq user-full-name "ii friend"
-      user-mail-address "ii@ii.nz")
+(setq user-full-name (if (getenv "GIT_AUTHOR_NAME")
+                         (getenv "GIT_AUTHOR_NAME")
+                       "ii friend")
+      user-mail-address (if (getenv "GIT_COMMIT_EMAIL")
+                            (getenv "GIT_COMMIT_EMAIL")
+                          "ii*ii.ii"))
+#+END_SRC
 
+* Consistency
+If you are using a mac, you can have  problem with running source blocks or some language support as the shell PATH isn't found in emacs.
+[[https://github.com/purcell/exec-path-from-shell][exec-path-from-shell]] is a solution for this.
+#+BEGIN_SRC elisp
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-intialize!))
 #+END_SRC
 * Appearance
 ** Fonts
@@ -21,14 +31,162 @@ sync' after modifying this file!
 #+END_SRC
 ** Theme
 #+BEGIN_SRC elisp
-(setq doom-theme 'almost-mono-gray)
+(setq doom-theme 'doom-dracula)
 #+END_SRC
 ** Indent
 #+BEGIN_SRC elisp
 (setq standard-indent 2)
 #+END_SRC
+** LSP Behaviour
+This brings over the lsp behaviour of spacemacs, so working with code feels consistent across emacs..
+#+NAME: Setup LSP-UI
+#+BEGIN_SRC elisp
+(use-package! lsp-ui
+:config
+          (setq lsp-navigation 'both)
+          (setq lsp-ui-doc-enable t)
+          (setq lsp-ui-doc-position 'top)
+          (setq lsp-ui-doc-alignment 'frame)
+          (setq lsp-ui-doc-use-childframe t)
+          (setq lsp-ui-doc-use-webkit t)
+          (setq lsp-ui-doc-delay 0.2)
+          (setq lsp-ui-doc-include-signature nil)
+          (setq lsp-ui-sideline-show-symbol t)
+          (setq lsp-ui-remap-xref-keybindings t)
+          (setq lsp-ui-sideline-enable t)
+          (setq lsp-prefer-flymake nil)
+          (setq lsp-print-io t))
+#+END_SRC
+* Languages
+** Go
+Go is enabled, with LSP support in our [[file:init.el][init.el]].  To get it working properly, though, you want to ensure you have all the go dependencies installed on your computer and your GOPATH set. It's recommended you read the doom docs on golang, following all links to ensure your dependencies are up to date.
+[[file:~/humacs/doom-emacs/modules/lang/go/README.org][Go Docs]]
+* Literate!
+** SQL
+#+BEGIN_SRC elisp
+(setq org-babel-default-header-args:sql-mode
+      '((:results . "replace code")
+        (:product . "postgres")
+        (:wrap . "SRC example")))
+#+END_SRC
+** Go
+#+BEGIN_SRC elisp
+(setq org-babel-default-header-args:go
+      '((:results . "replace code")
+        (:wrap . "SRC example")))
+#+END_SRC
+
+** Pairing
+#+BEGIN_SRC elisp
+(use-package! osc52e)
+(use-package! iterm)
+(use-package! ob-tmate)
+#+END_SRC
+** Exporting
+#+BEGIN_SRC elisp
+(require 'ox-gfm)
+#+END_SRC
+
+** Sane Org Defaults
+In addition to the org defaults, we wanna make sure our exports include results, but that we dont' try to run all our tamte commands again.
+#+BEGIN_SRC elisp
+(setq org-babel-default-header-args
+      '((:session . "none")
+        (:results . "replace code")
+        (:comments . "org")
+        (:exports . "both")
+        (:eval . "never-export")
+        (:tangle . "no")))
+
+(setq org-babel-default-header-args:shell
+      '((:results . "output code verbatim replace")
+        (:wrap . "example")))
+#+END_SRC
+
 * Ergonomics
+** Better Local Leaders
 I got used to using comma as the localleader key, from spacemacs, so i keeep it.
 #+BEGIN_SRC elisp
 (setq doom-localleader-key ",")
 #+END_SRC
+** Use mouse scroll
+#+BEGIN_SRC elisp
+ (defun scroll-up-5-lines ()
+    "Scroll up 5 lines"
+    (interactive)
+    (scroll-up 5))
+
+  (defun scroll-down-5-lines ()
+    "Scroll down 5 lines"
+    (interactive)
+    (scroll-down 5))
+
+  (global-set-key (kbd "<mouse-4>") 'scroll-down-5-lines)
+  (global-set-key (kbd "<mouse-5>") 'scroll-up-5-lines)
+#+END_SRC
+
+* ii tools
+** ssh find agent
+#+BEGIN_SRC elisp
+(defun ssh-find-agent ()
+"Look for a running SSH agent on the host machine, and set it as our SSH_AUTH_SOCK.
+This is useful for pushing changes to git repos using your ssh key, or for tramping in an org file to a remote machine.
+It assumes you've added an ssh-agent and, if on a remote machine, forwarded it to that machine.
+For more info, see: https://www.ssh.com/ssh/agent
+This function is INTERACTIVE."
+  (interactive)
+  (setenv "SSH_AUTH_SOCK" (shell-command-to-string "find /tmp /run/host/tmp/ -type s -regex '.*/ssh-.*/agent..*$' 2> /dev/null | tail -n 1 | tr -d '\n'"))
+  (message (getenv "SSH_AUTH_SOCK")))
+#+END_SRC
+** Timesheets
+#+NAME: iso-week-to-time
+#+BEGIN_SRC elisp
+(defun iso-week-to-time (year week day)
+  (pcase-let ((`(,m ,d ,y)
+               (calendar-gregorian-from-absolute
+                (calendar-iso-to-absolute (list week day year)))))
+    (encode-time 0 0 0 d m y)))
+
+(define-skeleton ii-timesheet-skel
+  "Prompt the week and year before generating ii timesheet for the user."
+  ""
+  (text-mode)
+  > "#+TITLE: Timesheet: Week " (setq v1 (skeleton-read "Timesheet Week? "))
+  ", " (setq v2 "2020")
+  " (" (getenv "USER") ")" \n
+  > "#+AUTHOR: " (getenv "USER") \n
+  > " " \n
+  > "Please refer to the instructions in ii-timesheet.org as required." \n
+  > " " \n
+  > "* Week Summary" \n
+  > " " _ \n
+  > "#+BEGIN: clocktable :scope file :block thisweek :maxlevel 2 :emphasise t :tags t :formula %" \n
+  > "#+END" \n
+  > " " \n
+
+  > "* " (format-time-string "%B %e, %Y" (iso-week-to-time (string-to-number v2) (string-to-number v1) 1)) \n
+  > "** Task X" \n
+  > "* " (format-time-string "%B %e, %Y" (iso-week-to-time (string-to-number v2) (string-to-number v1) 2)) \n
+  > "** Task X" \n
+  > "* " (format-time-string "%B %e, %Y" (iso-week-to-time (string-to-number v2) (string-to-number v1) 3)) \n
+  > "** Task X" \n
+  > "* " (format-time-string "%B %e, %Y" (iso-week-to-time (string-to-number v2) (string-to-number v1) 4)) \n
+  > "** Task X" \n
+  > "* " (format-time-string "%B %e, %Y" (iso-week-to-time (string-to-number v2) (string-to-number v1) 5)) \n
+  > "** Task X" \n
+  > " " \n
+  (org-mode)
+  (save-buffer))
+#+END_SRC
+
+#+NAME: ii-timesheet
+#+BEGIN_SRC elisp
+(defun ii-timesheet ()
+  "Create a timesheet buffer and insert skel as defined in ii-timesheet-skel.
+   This function is INTERACTIVE."
+  (interactive)
+  (require 'cal-iso)
+  (switch-to-buffer (get-buffer-create "*ii-timesheet*"))
+  (ii-timesheet-skel))
+#+END_SRC
+

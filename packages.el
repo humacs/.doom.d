@@ -48,7 +48,36 @@
 ;(unpin! pinned-package another-pinned-package)
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
-(package! racket-mode)
+
+;;
+; Looks
+;;
 (package! almost-mono-themes)
+
+;;
+; Literate
+;;
 (package! ob-sql-mode)
 (package! ob-tmux)
+(package! ox-gfm) ; org dispatch github flavoured markdown
+(package! osc52e
+  :recipe (:local-repo "local/osc52e"
+           :no-byte-compile t))
+(package! iterm
+  :recipe (:local-repo "local/iterm"
+           :no-byte-compile t))
+(package! ob-tmate
+  :recipe (:local-repo "local/ob-tmate"
+           :no-byte-compile t))
+
+;;
+; Lang
+;;
+(package! kubernetes)
+(package! kubernetes-evil)
+
+;;
+; Lots More
+;;
+(package! exec-path-from-shell)
+(package! tomatinho)
