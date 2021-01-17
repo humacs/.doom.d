@@ -13,6 +13,28 @@ Otherwise, they're just a friend.
                           "ii*ii.ii"))
 #+END_SRC
 
+* Ergonomics
+** Better Local Leaders
+I got used to using comma as the localleader key, from spacemacs, so i keep it.
+#+BEGIN_SRC elisp
+(setq doom-localleader-key ",")
+#+END_SRC
+** Use mouse scroll
+#+BEGIN_SRC elisp
+ (defun scroll-up-5-lines ()
+    "Scroll up 5 lines"
+    (interactive)
+    (scroll-up 5))
+
+  (defun scroll-down-5-lines ()
+    "Scroll down 5 lines"
+    (interactive)
+    (scroll-down 5))
+
+  (global-set-key (kbd "<mouse-4>") 'scroll-down-5-lines)
+  (global-set-key (kbd "<mouse-5>") 'scroll-up-5-lines)
+#+END_SRC
+
 * Consistency
 If you are using a mac, you can have  problem with running source blocks or some language support as the shell PATH isn't found in emacs.
 [[https://github.com/purcell/exec-path-from-shell][exec-path-from-shell]] is a solution for this.
@@ -61,6 +83,14 @@ This brings over the lsp behaviour of spacemacs, so working with code feels cons
 ** Go
 Go is enabled, with LSP support in our [[file:init.el][init.el]].  To get it working properly, though, you want to ensure you have all the go dependencies installed on your computer and your GOPATH set. It's recommended you read the doom docs on golang, following all links to ensure your dependencies are up to date.
 [[file:~/humacs/doom-emacs/modules/lang/go/README.org][Go Docs]]
+
+I've had inconsistencies with having the GOPATH set on humacs boxes, so if we are in a humacs pod, explicitly set the GOPATH
+#+NAME: Set GOPATH on humacs boxes
+#+BEGIN_SRC elisp
+(when (and (getenv "HUMACS_PROFILE") (not (getenv "GOPATH")))
+  (setenv "GOPATH" "/home/ii/go"))
+#+END_SRC
+
 * Literate!
 ** SQL
 #+BEGIN_SRC elisp
@@ -101,28 +131,6 @@ In addition to the org defaults, we wanna make sure our exports include results,
 (setq org-babel-default-header-args:shell
       '((:results . "output code verbatim replace")
         (:wrap . "example")))
-#+END_SRC
-
-* Ergonomics
-** Better Local Leaders
-I got used to using comma as the localleader key, from spacemacs, so i keeep it.
-#+BEGIN_SRC elisp
-(setq doom-localleader-key ",")
-#+END_SRC
-** Use mouse scroll
-#+BEGIN_SRC elisp
- (defun scroll-up-5-lines ()
-    "Scroll up 5 lines"
-    (interactive)
-    (scroll-up 5))
-
-  (defun scroll-down-5-lines ()
-    "Scroll down 5 lines"
-    (interactive)
-    (scroll-down 5))
-
-  (global-set-key (kbd "<mouse-4>") 'scroll-down-5-lines)
-  (global-set-key (kbd "<mouse-5>") 'scroll-up-5-lines)
 #+END_SRC
 
 * ii tools
