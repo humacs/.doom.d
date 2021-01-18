@@ -40,7 +40,7 @@ If you are using a mac, you can have  problem with running source blocks or some
 [[https://github.com/purcell/exec-path-from-shell][exec-path-from-shell]] is a solution for this.
 #+BEGIN_SRC elisp
 (when (memq window-system '(mac ns x))
-  (exec-path-from-shell-intialize!))
+  (exec-path-from-shell-intialize))
 #+END_SRC
 * Appearance
 ** Fonts
