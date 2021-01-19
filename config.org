@@ -35,12 +35,24 @@ I got used to using comma as the localleader key, from spacemacs, so i keep it.
   (global-set-key (kbd "<mouse-5>") 'scroll-up-5-lines)
 #+END_SRC
 
-* Consistency
-If you are using a mac, you can have  problem with running source blocks or some language support as the shell PATH isn't found in emacs.
-[[https://github.com/purcell/exec-path-from-shell][exec-path-from-shell]] is a solution for this.
+** lispy vim
+This sets up keybindings for manipuulating parenthesis with slurp and barf when in normal or visual mode.
+
+#+NAME: Setup Lispy Vim Bindings
 #+BEGIN_SRC elisp
-(when (memq window-system '(mac ns x))
-  (exec-path-from-shell-intialize))
+(map!
+ :map smartparens-mode-map
+ :nv ">" #'sp-forward-slurp-sexp
+ :nv "<" #'sp-forward-barf-sexp
+ :nv "}" #'sp-backward-barf-sexp
+ :nv "{" #'sp-backward-slurp-sexp)
+#+END_SRC
+
+
+* Consistency
+If you are using a mac, you can have  problem with running source blocks or some language support as the shell PATH isn't found in emacs. [[https://github.com/purcell/exec-path-from-shell][exec-path-from-shell]] is a solution for this.
+#+BEGIN_SRC elisp
+(when (memq window-system '(mac ns x)) (exec-path-from-shell-intialize))
 #+END_SRC
 * Appearance
 ** Fonts
@@ -53,7 +65,7 @@ If you are using a mac, you can have  problem with running source blocks or some
 #+END_SRC
 ** Theme
 #+BEGIN_SRC elisp
-(setq doom-theme 'doom-dracula)
+(setq doom-theme 'doom-gruvbox)
 #+END_SRC
 ** Indent
 #+BEGIN_SRC elisp
