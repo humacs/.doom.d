@@ -75,9 +75,7 @@
 ;;
 (package! kubernetes)
 (package! kubernetes-evil)
-
 ;;
 ; Lots More
 ;;
 (package! exec-path-from-shell)
-(package! tomatinho)
