@@ -1,4 +1,3 @@
-#+TITLE: My Config!
 #+PROPERTY: header-args:elisp+ :results silent
 
 *  Humac Human Deets
@@ -48,11 +47,11 @@ This sets up keybindings for manipuulating parenthesis with slurp and barf when 
  :nv "{" #'sp-backward-slurp-sexp)
 #+END_SRC
 
-
 * Consistency
+** consistent paths
 If you are using a mac, you can have  problem with running source blocks or some language support as the shell PATH isn't found in emacs. [[https://github.com/purcell/exec-path-from-shell][exec-path-from-shell]] is a solution for this.
 #+BEGIN_SRC elisp
-(when (memq window-system '(mac ns x)) (exec-path-from-shell-intialize))
+(when (memq window-system '(mac ns x)) (exec-path-from-shell-initialize))
 #+END_SRC
 * Appearance
 ** Fonts
@@ -92,6 +91,13 @@ This brings over the lsp behaviour of spacemacs, so working with code feels cons
           (setq lsp-print-io t))
 #+END_SRC
 * Languages
+** Web
+auto-closing tags works different if you are in a terminal or gui.  We want consistent behaviour when editing any sort of web doc.
+I also like it to create a closing tag when i've starteed my opening tag, which is auto-close-style 2
+#+BEGIN_SRC elisp
+(setq web-mode-enable-auto-closing t)
+(setq-hook! web-mode web-mode-auto-close-style 2)
+#+END_SRC
 ** Go
 Go is enabled, with LSP support in our [[file:init.el][init.el]].  To get it working properly, though, you want to ensure you have all the go dependencies installed on your computer and your GOPATH set. It's recommended you read the doom docs on golang, following all links to ensure your dependencies are up to date.
 [[file:~/humacs/doom-emacs/modules/lang/go/README.org][Go Docs]]
@@ -102,7 +108,16 @@ I've had inconsistencies with having the GOPATH set on humacs boxes, so if we ar
 (when (and (getenv "HUMACS_PROFILE") (not (getenv "GOPATH")))
   (setenv "GOPATH" "/home/ii/go"))
 #+END_SRC
-
+** Vue
+Tried out vue-mode, but it was causing more problems than benefits and doesn't seem to do much beyond what web-mode plus vue-lsp support would do.
+So, following [[https://genehack.blog/2020/08/web-mode-eglot-vetur-vuejs-=-happy/][Gene Hack's Blog Post]], we'll create our own mode, that just inherits all of web-mode and adds lsp.
+This requires for [[https://npmjs.com/vls][vls]] to be installed.
+#+BEGIN_SRC elisp
+(define-derived-mode ii-vue-mode web-mode "iiVue"
+  "A major mode derived from web-mode, for editing .vue files with LSP support.")
+(add-to-list 'auto-mode-alist '("\\.vue\\'" . ii-vue-mode))
+(add-hook 'ii-vue-mode-hook #'lsp!)
+#+END_SRC
 * Literate!
 ** SQL
 #+BEGIN_SRC elisp
