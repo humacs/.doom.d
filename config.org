@@ -160,6 +160,26 @@ In addition to the org defaults, we wanna make sure our exports include results,
         (:wrap . "example")))
 #+END_SRC
 
+* Snippets
+These are helpful text expanders made with yasnippet
+** org-mode
+*** Blog Property
+Creates a property drawer with all the necessary info for our blog.
+#+BEGIN_SRC snippet :tangle snippets/org-mode/blog
+# -*- snippet -*-
+# name: blog
+# key: <blog
+# --
+,** ${1:Enter Title}
+   :PROPERTIES:
+   :EXPORT_FILE_NAME:  ${1:$(downcase(replace-regexp-in-string " " "-" yas-text))}
+   :EXPORT_DATE: `(format-time-string "%Y-%m-%d")`
+   :EXPORT_HUGO_MENU: :menu "main"
+   :EXPORT_HUGO_CUSTOM_FRONT_MATTER: :summary "${2:No Summary Provided}"
+   :END:
+   ${3:"Enter Tags"$(unless yas-modified-p (progn (counsel-org-tag)(kill-whole-line)))}
+#+END_SRC
+
 * ii tools
 ** ssh find agent
 #+BEGIN_SRC elisp
@@ -224,4 +244,3 @@ This function is INTERACTIVE."
   (switch-to-buffer (get-buffer-create "*ii-timesheet*"))
   (ii-timesheet-skel))
 #+END_SRC
-
