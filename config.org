@@ -118,6 +118,16 @@ This requires for [[https://npmjs.com/vls][vls]] to be installed.
 (add-to-list 'auto-mode-alist '("\\.vue\\'" . ii-vue-mode))
 (add-hook 'ii-vue-mode-hook #'lsp!)
 #+END_SRC
+* Org
+Various settings specific to org-mode to satisfy our preferences
+** Show properties when cycling through subtrees
+This is an adjustment to the default hook, which hides drawers by default
+#+BEGIN_SRC elisp
+(setq org-cycle-hook
+      ' (org-cycle-hide-archived-subtrees
+         org-cycle-show-empty-lines
+         org-optimize-window-after-visibility-change))
+#+END_SRC
 * Literate!
 ** SQL
 #+BEGIN_SRC elisp
