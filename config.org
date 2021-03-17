@@ -52,16 +52,19 @@ This sets up keybindings for manipuulating parenthesis with slurp and barf when 
 * Consistency
 If you are using a mac, you can have  problem with running source blocks or some language support as the shell PATH isn't found in emacs. [[https://github.com/purcell/exec-path-from-shell][exec-path-from-shell]] is a solution for this.
 #+BEGIN_SRC elisp
-(when (memq window-system '(mac ns x)) (exec-path-from-shell-intialize))
+(when (memq window-system '(mac ns x)) (exec-path-from-shell-initialize))
 #+END_SRC
 * Appearance
 ** Fonts
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
 #+BEGIN_SRC elisp
-(setq doom-font (font-spec :family "Source Code Pro" :size 12 :weight 'semi-light)
-      doom-variable-pitch-font (font-spec :family "Source Code Pro" :size 13)
-      doom-big-font (font-spec :family "Source Code Pro" :size 15))
+(setq doom-font (font-spec :family "Source Code Pro" :size 10)
+      ;; )(font-spec :family "Source Code Pro" :size 8 :weight 'semi-light)
+      doom-serif-font (font-spec :family "Source Code Pro" :size 10)
+      doom-variable-pitch-font (font-spec :family "Source Code Pro" :size 10)
+      doom-unicode-font (font-spec :family "Input Mono Narrow" :size 12)
+      doom-big-font (font-spec :family "Source Code Pro" :size 10))
 #+END_SRC
 ** Theme
 #+BEGIN_SRC elisp
@@ -145,6 +148,17 @@ In addition to the org defaults, we wanna make sure our exports include results,
         (:wrap . "example")))
 #+END_SRC
 
+* Dashboard
+** Banners
+#+begin_src elisp
+(setq
+      ;; user-banners-dir
+      ;; doom-dashboard-banner-file "img/kubemacs.png"
+      ;; +doom-dashboard-banner-dir (concat humacs-spacemacs-directory  (convert-standard-filename "/banners/"))
+      ;; +doom-dashboard-banner-file "img/kubemacs.png"
+      ;; fancy-splash-image (concat user-banners-dir doom-dashboard-banner-file)
+      )
+#+end_src
 * ii tools
 ** ssh find agent
 #+BEGIN_SRC elisp

@@ -14,9 +14,39 @@
 ;;      Alternatively, press 'gd' (or 'C-c c d') on a module to browse its
 ;;      directory (for easy access to its source code).
 
+;; patch to emacs@28.0.50
+;; https://www.reddit.com/r/emacs/comments/kqd9wi/changes_in_emacshead2828050_break_many_packages/
+(defmacro define-obsolete-function-alias ( obsolete-name current-name
+                                           &optional when docstring)
+  "Set OBSOLETE-NAME's function definition to CURRENT-NAME and mark it obsolete.
+\(define-obsolete-function-alias \\='old-fun \\='new-fun \"22.1\" \"old-fun's doc.\")
+is equivalent to the following two lines of code:
+\(defalias \\='old-fun \\='new-fun \"old-fun's doc.\")
+\(make-obsolete \\='old-fun \\='new-fun \"22.1\")
+WHEN should be a string indicating when the function was first
+made obsolete, for example a date or a release number.
+See the docstrings of `defalias' and `make-obsolete' for more details."
+  (declare (doc-string 4)
+           (advertised-calling-convention
+           ;; New code should always provide the `when' argument
+           (obsolete-name current-name when &optional docstring) "23.1"))
+  `(progn
+     (defalias ,obsolete-name ,current-name ,docstring)
+     (make-obsolete ,obsolete-name ,current-name ,when)))
+
+;; (setq user-banners-dir (concat humacs-spacemacs-directory  (convert-standard-filename "/banners/"))
+;;       doom-dashboard-banner-file "img/kubemacs.png"
+;;       )
+
+;; debug set-font
+;; (debug-on-entry 'set-frame-font)
+;; (cancel-debug-on-entry 'set-frame-font)
+
 (doom! :input
        ;;chinese
        ;;japanese
+       :os
+       (tty +osc)
 
        :completion
        company           ; the ultimate code completion backend
@@ -43,8 +73,8 @@
        ;;tabs              ; a tab bar for Emacs
        treemacs          ; a project drawer, like neotree but cooler
        unicode           ; extended unicode support for various languages
-       ;vc-gutter         ; vcs diff in the fringe
-       ;vi-tilde-fringe   ; fringe tildes to mark beyond EOB
+       vc-gutter         ; vcs diff in the fringe
+       vi-tilde-fringe   ; fringe tildes to mark beyond EOB
        ;;window-select     ; visually switch windows
        workspaces        ; tab emulation, persistence & separate workspaces
        zen               ; distraction-free coding or writing
@@ -56,7 +86,7 @@
        ;;(format +onsave)  ; automated prettiness
        ;;god               ; run Emacs commands without modifier keys
        ;;lispy             ; vim for lisp, for people who don't like vim
-       ;;multiple-cursors  ; editing in many places at once
+       multiple-cursors  ; editing in many places at once
        ;;objed             ; text object editing for the innocent
        ;;parinfer          ; turn lisp into python, sort of
        ;;rotate-text       ; cycle region at point between text candidates
@@ -83,20 +113,20 @@
 
        :tools
        ;;ansible
-       ;;debugger          ; FIXME stepping through code, to help you add bugs
-       ;;direnv
+       debugger          ; FIXME stepping through code, to help you add bugs
+       direnv
        docker
-       ;;editorconfig      ; let someone else argue about tabs vs spaces
-       ;;ein               ; tame Jupyter notebooks with emacs
+       editorconfig      ; let someone else argue about tabs vs spaces
+       ein               ; tame Jupyter notebooks with emacs
        (eval +overlay)     ; run code, run (also, repls)
        ;;gist              ; interacting with github gists
        lookup              ; navigate your code and its documentation
        (lsp +peek)
-       ;;macos             ; MacOS-specific commands
+       macos             ; MacOS-specific commands
        magit             ; a git porcelain for Emacs
        make              ; run make tasks from Emacs
-       ;;pass              ; password manager for nerds
-       pdf               ; pdf enhancements
+       pass              ; password manager for nerds
+       ;; pdf               ; pdf enhancements
        ;;prodigy           ; FIXME managing external services & code builders
        rgb               ; creating color strings
        ;;taskrunner        ; taskrunner for all your projects

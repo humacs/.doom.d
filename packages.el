@@ -61,14 +61,11 @@
 (package! ob-tmux)
 (package! ox-gfm) ; org dispatch github flavoured markdown
 (package! osc52e
-  :recipe (:local-repo "local/osc52e"
-           :no-byte-compile t))
+   :recipe (:local-repo "local/osc52e"))
 (package! iterm
-  :recipe (:local-repo "local/iterm"
-           :no-byte-compile t))
+   :recipe (:local-repo "local/iterm"))
 (package! ob-tmate
-  :recipe (:local-repo "local/ob-tmate"
-           :no-byte-compile t))
+   :recipe (:local-repo "local/ob-tmate"))
 
 ;;
 ; Lang
