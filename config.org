@@ -275,8 +275,8 @@ Place your user config in
 #+BEGIN_SRC elisp
 (defun pair-or-user-name ()
     "Getenv SHARINGIO_PAIR_NAME if exists, else USER"
-  (if (getenv "SHARINGIO_PAIR_NAME")
-      (getenv "SHARINGIO_PAIR_NAME")
+  (if (getenv "SHARINGIO_PAIR_USER")
+      (getenv "SHARINGIO_PAIR_USER")
     (getenv "USER")))
 (setq humacs-doom-user-config (expand-file-name (concat "users/" (pair-or-user-name) ".org")))
 (if (file-exists-p humacs-doom-user-config)
