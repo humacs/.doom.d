@@ -231,7 +231,7 @@ This function is INTERACTIVE."
   ""
   (text-mode)
   > "#+TITLE: Timesheet: Week " (setq v1 (skeleton-read "Timesheet Week? "))
-  ", " (setq v2 "2020")
+  ", " (setq v2 (format-time-string "%Y"))
   " (" (getenv "USER") ")" \n
   > "#+AUTHOR: " (getenv "USER") \n
   > " " \n
