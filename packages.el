@@ -76,3 +76,5 @@
 ; Lots More
 ;;
 (package! exec-path-from-shell)
+(package! tomatinho)
+(package! graphviz-dot-mode)

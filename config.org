@@ -67,7 +67,7 @@ If you are using a mac, you can have  problem with running source blocks or some
 #+END_SRC
 ** Theme
 #+BEGIN_SRC elisp
-(setq doom-theme 'doom-gruvbox)
+(setq doom-theme 'doom-dark+)
 #+END_SRC
 ** Indent
 #+BEGIN_SRC elisp
@@ -109,7 +109,7 @@ I've had inconsistencies with having the GOPATH set on humacs boxes, so if we ar
 #+NAME: Set GOPATH on humacs boxes
 #+BEGIN_SRC elisp
 (when (and (getenv "HUMACS_PROFILE") (not (getenv "GOPATH")))
-  (setenv "GOPATH" "/home/ii/go"))
+  (setenv "GOPATH" (concat (getenv "HOME") "/go")))
 #+END_SRC
 ** Vue
 Tried out vue-mode, but it was causing more problems than benefits and doesn't seem to do much beyond what web-mode plus vue-lsp support would do.
