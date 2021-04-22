@@ -1,0 +1,5 @@
+#+TITLE: Hh
+* My Config
+#+BEGIN_SRC elisp
+(setq MYVAR "MYVAL")
+#+END_SRC
