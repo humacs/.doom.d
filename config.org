@@ -268,3 +268,19 @@ This function is INTERACTIVE."
   (switch-to-buffer (get-buffer-create "*ii-timesheet*"))
   (ii-timesheet-skel))
 #+END_SRC
+
+* user configs
+
+Place your user config in
+#+BEGIN_SRC elisp
+(defun pair-or-user-name ()
+    "Getenv SHARINGIO_PAIR_NAME if exists, else USER"
+  (if (getenv "SHARINGIO_PAIR_NAME")
+      (getenv "SHARINGIO_PAIR_NAME")
+    (getenv "USER")))
+(setq humacs-doom-userconfig (expand-file-name (concat "users/" (pair-or-user-name) ".org")
+                   user-emacs-directory))
+(if (file-exists-p humacs-doom-user-config)
+  (org-babel-load-file humacs-doom-user-config)
+)
+#+END_SRC
