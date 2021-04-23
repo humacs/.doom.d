@@ -67,7 +67,7 @@ If you are using a mac, you can have  problem with running source blocks or some
 #+END_SRC
 ** Theme
 #+BEGIN_SRC elisp
-(setq doom-theme 'gruvbox)
+(setq doom-theme 'doom-gruvbox)
 #+END_SRC
 ** Indent
 #+BEGIN_SRC elisp
