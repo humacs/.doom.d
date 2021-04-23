@@ -278,9 +278,11 @@ Place your user config in
   (if (getenv "SHARINGIO_PAIR_USER")
       (getenv "SHARINGIO_PAIR_USER")
     (getenv "USER")))
-(setq humacs-doom-user-config (expand-file-name (concat "users/" (pair-or-user-name) ".org")))
+(setq humacs-doom-user-config (expand-file-name (concat humacs-directory "doom-config/users/" (pair-or-user-name) ".org")))
 (if (file-exists-p humacs-doom-user-config)
-  (org-babel-load-file humacs-doom-user-config)
+  (progn
+    (org-babel-load-file humacs-doom-user-config)
+  )
 )
 ;; once all personal vars are set, reload the theme
 (doom/reload-theme)
