@@ -199,9 +199,9 @@ Creates a property drawer with all the necessary info for our blog.
 (setq
       ;; user-banners-dir
       ;; doom-dashboard-banner-file "img/kubemacs.png"
-      ;; +doom-dashboard-banner-dir (concat humacs-spacemacs-directory  (convert-standard-filename "/banners/"))
-      ;; +doom-dashboard-banner-file "img/kubemacs.png"
-      ;; fancy-splash-image (concat user-banners-dir doom-dashboard-banner-file)
+      doom-dashboard-banner-dir (concat humacs-spacemacs-directory  (convert-standard-filename "/banners/"))
+      doom-dashboard-banner-file "img/kubemacs.png"
+      fancy-splash-image (concat doom-dashboard-banner-dir doom-dashboard-banner-file)
       )
 #+end_src
 * ii tools
@@ -282,4 +282,9 @@ Place your user config in
 (if (file-exists-p humacs-doom-user-config)
   (org-babel-load-file humacs-doom-user-config)
 )
+;; once all personal vars are set, reload the theme
+(doom/reload-theme)
+;; for some reason this isn't loading
+;; and doesn't exist an config.org time
+;; (doom-dashboard/open) ;; our default screen
 #+END_SRC
