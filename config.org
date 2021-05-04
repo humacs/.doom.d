@@ -131,6 +131,12 @@ This is an adjustment to the default hook, which hides drawers by default
          org-cycle-show-empty-lines
          org-optimize-window-after-visibility-change))
 #+END_SRC
+** Proto
+#+begin_src elisp
+(use-package! protobuf-mode)
+(add-to-list 'auto-mode-alist '("\\.proto\\'" . protobuf-mode))
+#+end_src
+
 * Literate!
 ** SQL
 #+BEGIN_SRC elisp
