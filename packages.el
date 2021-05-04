@@ -78,3 +78,8 @@
 (package! exec-path-from-shell)
 (package! tomatinho)
 (package! graphviz-dot-mode)
+;; syntax highlighting and some syntax checking for protocol buffers
+(package! protobuf-mode :recipe
+  (:host github
+   :repo "protocolbuffers/protobuf"
+   :files ("*.el" "editors/protobuf-mode.el")))
