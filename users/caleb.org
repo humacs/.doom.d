@@ -1,7 +1,9 @@
 #+TITLE: Caleb's Cool Config
 * My Tweaks
 #+BEGIN_SRC elisp
-(setq doom-theme 'doom-laserwave)
+  (if (getenv "SHARINGIO_PAIR_USER")
+      (setq doom-theme 'doom-dark+)
+      (setq doom-theme 'doom-laserwave))
 #+END_SRC
 
 ** Fonts
