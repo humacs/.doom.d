@@ -97,18 +97,15 @@ Uses kitty if found, otherwise iterm on OSX"
   `((:results . "silent")
     (:session . "tmate")
     (:window . "i")
-    (:dir . "."))
-  ;; TODO revisit the socket.  when i tried to load it on doom,
-  ;;      I got an error that the function nil was void.  Commenting out socket (with it's nil call) fixes this.
-  ;;
-    ;; (:socket .
-    ;;          ;; If emacs is run within TMUX/TMATE
-    ;;          ;; Let's go ahead and use our existing socket
-    ;;          ;; Otherwise we are likely wanting to launch our own
-    ;;          ,(if (getenv "TMUX")
-    ;;              (car (split-string (getenv "TMUX") ","))
-    ;;            (nil))
-    ;;          ))
+    (:dir . ".")
+    (:socket .
+             ;; if emacs is run within tmux/tmate
+             ;; let's go ahead and use our existing socket
+             ;; otherwise we are likely wanting to launch our own
+             ,(if (getenv "TMUX")
+                 (car (split-string (getenv "TMUX") ","))
+               (symbol-value nil))
+             ))
   "Default arguments to use when running tmate source blocks.")
 (add-to-list 'org-src-lang-modes '("tmate" . sh))
 ;;;;
