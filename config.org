@@ -154,6 +154,7 @@ This is an adjustment to the default hook, which hides drawers by default
 #+END_SRC
 ** Pairing
 #+BEGIN_SRC elisp
+(use-package! graphviz-dot-mode)
 (use-package! sql)
 (use-package! osc52e)
 (use-package! iterm)

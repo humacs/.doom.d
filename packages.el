@@ -57,6 +57,8 @@
 ;;
 ; Literate
 ;;
+
+(package! graphviz-dot-mode)
 (package! sql)
 (package! ob-sql-mode)
 (package! ob-tmux)
