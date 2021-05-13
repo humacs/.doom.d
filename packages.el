@@ -60,12 +60,19 @@
 (package! ob-sql-mode)
 (package! ob-tmux)
 (package! ox-gfm) ; org dispatch github flavoured markdown
+;; :build (:not compile) so we can edit in place
 (package! osc52e
-   :recipe (:local-repo "local/osc52e"))
+  :recipe (:local-repo "local/osc52e"
+           :no-byte-compile t
+           ))
 (package! iterm
-   :recipe (:local-repo "local/iterm"))
+  :recipe (:local-repo "local/iterm"
+           :no-byte-compile t
+           ))
 (package! ob-tmate
-   :recipe (:local-repo "local/ob-tmate"))
+   :recipe (:local-repo "local/ob-tmate"
+           :no-byte-compile t
+           ))
 
 ;;
 ; Lang
