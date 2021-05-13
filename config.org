@@ -146,7 +146,12 @@ This is an adjustment to the default hook, which hides drawers by default
       '((:results . "replace code")
         (:wrap . "SRC example")))
 #+END_SRC
-
+** OSC52 (copy over ssh/terminal)
+#+BEGIN_SRC elisp
+(after! osc52e
+  (osc52-set-cut-function)
+  )
+#+END_SRC
 ** Pairing
 #+BEGIN_SRC elisp
 (use-package! sql)
