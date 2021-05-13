@@ -242,22 +242,27 @@ Argument OB-SESSION: the current ob-tmate session.
 Optional command-line arguments can be passed in ARGS."
   (message "OBSESSION: %S" ob-session)
   (message "OBSESSION ARGS: %S" args)
-  (if (ob-tmate--socket ob-session)
-      (progn
-        (message (concat "OB-TMATE: execute on provided socket: => " (ob-tmate--socket ob-session)))
-        (message (concat "OB-TMATE: execute args: => " (string-join args " ")))
-        (message (concat "OB-TMATE: applying 'start-process"))
-        (setenv "TMUX") ;unset tmux env so this can be run from within a tmux session without complaint
-        (apply 'start-process "ob-tmate" "*Messages*"
-	             org-babel-tmate-location
-	             "-S" (ob-tmate--socket ob-session)
-	             args))
-    (progn
-      (message (concat "OB-TMATE: execute args: => " (string-join args " ")))
-      (message (concat "OB-TMATE: execute start-process:" (ob-tmate--socket ob-session)))
-      (setenv "TMUX")
-      (apply 'start-process
-	           "ob-tmate" "*Messages*" org-babel-tmate-location args))))
+  (let ((process-environment (cl-copy-list process-environment)))
+       (setenv-internal process-environment "TMUX" nil nil) ; because of the let, process-environment is local
+       ;; unset tmux env so this can be run from within a tmux session without complaint
+       (if (ob-tmate--socket ob-session)
+           (progn
+             (message
+              (concat "OB-TMATE: execute on provided socket: => " (ob-tmate--socket ob-session)))
+             (message
+              (concat "OB-TMATE: execute args: => " (string-join args " ")))
+             (message
+              (concat "OB-TMATE: applying 'start-process"))
+             (apply 'start-process "ob-tmate" "*Messages*"
+                    org-babel-tmate-location
+                    "-S" (ob-tmate--socket ob-session)
+                    args))
+         (progn
+           (message (concat "OB-TMATE: execute args: => " (string-join args " ")))
+           (message (concat "OB-TMATE: execute start-process:" (ob-tmate--socket ob-session)))
+           (apply 'start-process
+                  "ob-tmate" "*Messages*" org-babel-tmate-location args))))
+  )
 
 (defun ob-tmate--execute-string (ob-session &rest args)
   "Execute a tmate command with arguments as given.
@@ -376,49 +381,50 @@ Argument OB-SESSION: the current ob-tmate session."
               (setenv "TERMINFO" osx-terminfo)
             )
             ))
-    ;;unset tmux env so this can be run from within a tmux session without complaint
-    (setenv "TMUX")
-
-  (start-process-shell-command
-   (concat session-name "-tmate-process")
-   (concat "**" session-name "-tmate-process**")
-   (concat "nohup tmate"
-           ;; " -n " "init"; session-window
-           ;; " -F -v"
-           " -v"
-           ;; " -d -v"
-           " -S " session-socket
-           " new-session"
-           " -d -P -F '#{tmate_ssh}:#{tmate_web}'"
-           " -s " session-name
-           " -c " session-dir
-           " -n 0 " ; This is window 0
-           " bash -c \"" ; begin command
-           "( " ; start wrap to display errors
-           "echo Waiting for tmate..." ; wait for tmate ready
-           " && "
-           ;; wait for tmate to be fully ready
-           "tmate wait tmate-ready "
-           " && "
-           "echo '\nShare this only with people you trust:'"
-           " && "
-           "tmate display -p '#{tmate_ssh} # " session-name "'"
-           " && "
-           "tmate display -p '#{tmate_web} # " session-name "'"
-           " && "
-           "echo '\nShare this read only connection otherwise:'"
-           " && "
-           "tmate display -p '#{tmate_ssh_ro} # " session-name "'"
-           " && "
-           "tmate display -p '#{tmate_web_ro} # " session-name "'"
-           " && "
-           ;; Let folks know what to do with this
-           "echo '\nShare the above connection with a friend and check huemacs'"
-           " ) 2>&1" ; end wrap to display errors
-           " && "
-           "read X" ; need to hit enter to continue
-           "\"" ; end command
-           ))
+  (let ((process-environment (cl-copy-list process-environment)))
+       (setenv-internal process-environment "TMUX" nil nil) ; because of the let, process-environment is local
+       ;; unset tmux env so this can be run from within a tmux session without complaint
+       (start-process-shell-command
+        (concat session-name "-tmate-process")
+        (concat "**" session-name "-tmate-process**")
+        (concat "nohup tmate"
+                ;; " -n " "init"; session-window
+                ;; " -F -v"
+                " -v"
+                ;; " -d -v"
+                " -S " session-socket
+                " new-session"
+                " -d -P -F '#{tmate_ssh}:#{tmate_web}'"
+                " -s " session-name
+                " -c " session-dir
+                " -n 0 " ; This is window 0
+                " bash -c \"" ; begin command
+                "( " ; start wrap to display errors
+                "echo Waiting for tmate..." ; wait for tmate ready
+                " && "
+                ;; wait for tmate to be fully ready
+                "tmate wait tmate-ready "
+                " && "
+                "echo '\nShare this only with people you trust:'"
+                " && "
+                "tmate display -p '#{tmate_ssh} # " session-name "'"
+                " && "
+                "tmate display -p '#{tmate_web} # " session-name "'"
+                " && "
+                "echo '\nShare this read only connection otherwise:'"
+                " && "
+                "tmate display -p '#{tmate_ssh_ro} # " session-name "'"
+                " && "
+                "tmate display -p '#{tmate_web_ro} # " session-name "'"
+                " && "
+                ;; Let folks know what to do with this
+                "echo '\nShare the above connection with a friend and check huemacs'"
+                " ) 2>&1" ; end wrap to display errors
+                " && "
+                "read X" ; need to hit enter to continue
+                "\"" ; end command
+                ))
+       )
   ;;;;;; INSTALL tmate hook for when a client attaches
   ;; Wait for tmate to be ready
   ;; This means tmate ssh/web urls are handy
