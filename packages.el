@@ -57,6 +57,7 @@
 ;;
 ; Literate
 ;;
+(package! sql)
 (package! ob-sql-mode)
 (package! ob-tmux)
 (package! ox-gfm) ; org dispatch github flavoured markdown
