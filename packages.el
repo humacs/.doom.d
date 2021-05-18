@@ -53,7 +53,8 @@
 ; Looks
 ;;
 (package! almost-mono-themes)
-
+(package! birds-of-paradise-plus-theme)
+(package! plan9-theme)
 ;;
 ; Literate
 ;;
@@ -66,16 +67,13 @@
 ;; :build (:not compile) so we can edit in place
 (package! osc52e
   :recipe (:local-repo "local/osc52e"
-           :no-byte-compile t
-           ))
+           :no-byte-compile t))
 (package! iterm
   :recipe (:local-repo "local/iterm"
-           :no-byte-compile t
-           ))
+           :no-byte-compile t))
 (package! ob-tmate
    :recipe (:local-repo "local/ob-tmate"
-           :no-byte-compile t
-           ))
+           :no-byte-compile t))
 
 ;;
 ; Lang
@@ -89,5 +87,4 @@
 (package! tomatinho)
 (package! graphviz-dot-mode)
 (package! feature-mode)
-(package! birds-of-paradise-plus-theme)
-(package! plan9-theme)
+
