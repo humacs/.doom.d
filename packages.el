@@ -80,11 +80,19 @@
 ;;
 (package! kubernetes)
 (package! kubernetes-evil)
+(package! graphviz-dot-mode)
+(package! feature-mode)
+;; If the source files for a package are in a subdirectory of repo, use
+;; `:files' to target them.
+(package! protobuf-mode :recipe
+  (:host github
+   :repo "protocolbuffers/protobuf"
+   :files ("*.el" "editors/protobuf-mode.el")))
+
 ;;
 ; Lots More
 ;;
 (package! exec-path-from-shell)
 (package! tomatinho)
-(package! graphviz-dot-mode)
-(package! feature-mode)
+
 
