@@ -1,0 +1,200 @@
+:DOC-CONFIG:
+# Tangle by default to config.el, which is the most common case
+#+property: header-args:emacs-lisp :tangle config.el
+#+property: header-args:elisp+ :results silent :tangle config.el
+#+property: header-args :mkdirp yes :comments no
+#+startup: fold
+:END:
+#+title: Hippie's Doom Config
+#+author: Hippie Hacker
+#+email: hh.coop
+
+Much of this file just includes the parts of the main ii.org config I'm interested in.
+
+It also has links to the ii.org headings of those configs.
+
+For some I comment on my thoughts, but mainly I just used the coop defaults and set a few personal items at the end.
+
+This should allow everyone to do something similar!
+
+* [[file:ii.org::*Config file headers][Config file headers]]
+#+INCLUDE: "ii.org::*Config file headers"
+* hhiimacs
+#+begin_src emacs-lisp
+(message "humacs doom-config/hh.org")
+#+end_src
+* [[file:ii.org::*init.el][init.el]]
+** [[file:ii.org::*doom!heading][doom!heading]]
+I may want to have my own.. but for now I'm developing an opinion.
+#+INCLUDE: "ii.org::*doom!heading"
+** [[file:ii.org::*doom!input][doom!input]]
+#+INCLUDE: "ii.org::*doom!input"
+** [[file:ii.org::*doom!os][doom!os]]
+#+INCLUDE: "ii.org::*doom!os"
+** [[file:ii.org::*doom!completion][doom!completion]]
+#+INCLUDE: "ii.org::*doom!completion"
+** [[file:ii.org::*doom!ui][doom!ui]]
+#+INCLUDE: "ii.org::*doom!ui"
+** [[file:ii.org::*doom!editor][doom!editor]]
+#+INCLUDE: "ii.org::*doom!editor"
+** [[file:ii.org::*doom!emacs][doom!emacs]]
+#+INCLUDE: "ii.org::*doom!emacs"
+** [[file:ii.org::*doom!term][doom!term]]
+#+INCLUDE: "ii.org::*doom!term"
+** [[file:ii.org::*doom!checkers][doom!checkers]]
+#+INCLUDE: "ii.org::*doom!checkers"
+** [[file:ii.org::*doom!tools][doom!tools]]
+#+INCLUDE: "ii.org::*doom!tools"
+** [[file:ii.org::*doom!lang][doom!lang]]
+#+INCLUDE: "ii.org::*doom!lang"
+** [[file:ii.org::*doom!email][doom!email]]
+#+INCLUDE: "ii.org::*doom!email"
+** [[file:ii.org::*doom!app][doom!app]]
+#+INCLUDE: "ii.org::*doom!app"
+** [[file:ii.org::*doom!config][doom!config]]
+#+INCLUDE: "ii.org::*doom!config"
+* [[file:ii.org::*packages.el][packages.el]]
+** [[file:ii.org::*Theme Packages][Theme Packages]]
+#+INCLUDE: "ii.org::*Theme Packages"
+** [[file:ii.org::*Org Packages][Org Packages]]
+#+INCLUDE: "ii.org::*Org Packages"
+** [[file:ii.org::*Language Packages][Language Packages]]
+#+INCLUDE: "ii.org::*Language Packages"
+** [[file:ii.org::*Pairing Packages][Pairing Packages]]
+#+INCLUDE: "ii.org::*Pairing Packages"
+** [[file:ii.org::*More Packages][More Packages]]
+#+INCLUDE: "ii.org::*More Packages"
+* [[file:ii.org::*Humacs Human Deets][Humacs Human Deets]]
+#+INCLUDE: "ii.org::*Humacs Human Deets"
+* [[file:ii.org::*Ergonomics][Ergonomics]]
+#+INCLUDE: "ii.org::*Ergonomics"
+* [[file:ii.org::*Consistency][Consistency]]
+#+INCLUDE: "ii.org::*Consistency"
+* [[file:ii.org::*Appearance][Appearance]]
+#+INCLUDE: "ii.org::*Appearance"
+* [[file:ii.org::*Languages][Languages]]
+#+INCLUDE: "ii.org::*Languages"
+* [[file:ii.org::*Org][Org]]
+#+INCLUDE: "ii.org::*Org"
+* [[file:ii.org::*Literate!][Literate!]]
+#+INCLUDE: "ii.org::*Literate!" :minlevel 1
+* [[file:ii.org::*Snippets][Snippets]]
+#+INCLUDE: "ii.org::*Snippets"
+I'd like to understand more about the org-blog snippets we have here!
+* [[file:ii.org::*Dashboard][Dashboard]]
+#+INCLUDE: "ii.org::*Dashboard"
+* [[file:ii.org::*ii tools][ii tools]]
+#+INCLUDE: "ii.org::*ii tools"
+* [[file:ii.org::*Startup Buffers][Startup Buffers]]
+#+INCLUDE: "ii.org::*Startup Buffers"
+* Heyste's Org-roam
+** General Settings
+
+- Set location
+- Make sure the buffer window for back links isn't to big
+
+#+begin_src elisp
+(setq org-directory (concat (getenv "HOME") "/org"))
+(setq org-roam-directory (concat (getenv "HOME") "/org/roam/"))
+(setq org-roam-db-location "/tmp/org-roam.db")
+(setq org-roam-buffer-width 0.2)
+#+end_src
+
+** Shortcuts for Dailies
+
+Let's get make it super easy to focus
+
+#+begin_src elisp
+(map! "<f7>" #'org-roam-dailies-find-today
+      "<C-f7>" #'org-roam-dailies-find-tomorrow
+      "<S-f7>" #'org-roam-dailies-find-yesterday
+      "<C-S-f7>" #'org-roam-dailies-find-date)
+#+end_src
+
+** Shortcuts: find/insert
+
+#+begin_src elisp
+(map! "<f5>" #'org-roam-find-file
+      "<f8>" #'org-roam-insert)
+#+end_src
+
+** Graph Shortcuts/Settings
+
+Provide a visual overview of my documents. Increase the view from the current document :)
+
+#+begin_src elisp
+(defun heyste/graph-buffer-single-jump ()
+  "Invoke 'org-roam-graph--open' with the current buffer only for a single jump"
+  (interactive)
+  (org-roam-graph 1 (buffer-file-name (buffer-base-buffer)) 1)
+  )
+
+(defun heyste/graph-buffer-double-jump ()
+  "Invoke 'org-roam-graph--open' with the current buffer a double jump"
+  (interactive)
+  (org-roam-graph 2 (buffer-file-name (buffer-base-buffer)) 2)
+  )
+
+(defun heyste/graph-buffer-triple-jump ()
+  "Invoke 'org-roam-graph--open' with the current buffer a double jump"
+  (interactive)
+  (org-roam-graph 3 (buffer-file-name (buffer-base-buffer)) 3)
+  )
+
+(map! "<f9>" #'heyste/graph-buffer-single-jump
+      "<C-f9>" #'heyste/graph-buffer-double-jump
+      "<S-f9>" #'heyste/graph-buffer-triple-jump
+      "<C-S-f9>" #'org-roam-graph) ;; show every org document
+#+end_src
+
+** Graph Styling
+
+Let's make the graph more polished
+
+#+begin_src elisp
+(custom-set-variables
+'(org-roam-graph-edge-extra-config (quote (("color" . "grey"))))
+ '(org-roam-graph-node-extra-config
+   (quote
+    (("style" . "rounded")
+     ("fillcolor" . "snow")
+     ("overlap" . "compress")
+     ("fontname" . "Ubuntu Condensed")
+     ("fontcolor" . "slategrey")
+     ("shape" . "box")
+     ("color" . "steelblue")))))
+#+end_src
+
+** Capture Templates
+
+#+begin_src elisp
+(setq org-roam-capture-templates
+      '(("d" "default" plain #'org-roam-capture--get-point
+         "%?"
+         :file-name "${slug}"
+         :head "#+title: ${title}\n\n"
+         :unnarrowed t)))
+
+(setq org-roam-dailies-capture-templates
+      '(("d" "default" entry #'org-roam-capture--get-point
+         "* %<%H:%M>  %?"
+         :file-name "daily/%<%Y-%m-%d>"
+         :head "#+title: %<%Y-%m-%d>\n#+date: <%<%Y-%m-%d %H:%M>>\n#+filetags: 2021w00\n#+startup: overview\n\n\n* Capture\n** TAWs\n* Links\n* Sandpit\n** %<%H:%M>\n-  "
+         :unnarrowed t)))
+#+end_src
+
+#+begin_src elisp
+(message "FOO")
+#+end_src
+* Setting Theme and Font to my liking
+#+BEGIN_SRC elisp :results silent
+;; I think these settings are only called on (doom/reload-theme)
+;; I wonder how we can ensure these get 'reloaded'
+(setq doom-theme 'doom-dark+
+      doom-font (font-spec :family "Source Code Pro" :size 12)
+      doom-serif-font (font-spec :family "Source Code Pro" :size 12)
+      doom-variable-pitch-font (font-spec :family "Source Code Pro" :size 12)
+      doom-unicode-font (font-spec :family "Input Mono Narrow" :size 14)
+      doom-big-font (font-spec :family "Source Code Pro" :size 12)
+      )
+#+END_SRC
