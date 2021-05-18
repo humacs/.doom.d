@@ -89,3 +89,5 @@
 (package! tomatinho)
 (package! graphviz-dot-mode)
 (package! feature-mode)
+(package! birds-of-paradise-plus-theme)
+(package! plan9-theme)
