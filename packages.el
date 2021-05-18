@@ -49,16 +49,18 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
 
-;;
+
+;;;;
 ; Looks
-;;
+;;;;
 (package! almost-mono-themes)
 (package! birds-of-paradise-plus-theme)
 (package! plan9-theme)
-;;
-; Literate
-;;
 
+
+;;;;
+; Literate
+;;;;
 (package! graphviz-dot-mode)
 (package! sql)
 (package! ob-sql-mode)
@@ -75,9 +77,10 @@
    :recipe (:local-repo "local/ob-tmate"
            :no-byte-compile t))
 
-;;
+
+;;;;
 ; Lang
-;;
+;;;;
 (package! kubernetes)
 (package! kubernetes-evil)
 (package! graphviz-dot-mode)
@@ -89,11 +92,6 @@
    :repo "protocolbuffers/protobuf"
    :files ("*.el" "editors/protobuf-mode.el")))
 
-;;
-; Lots More
-;;
-(package! exec-path-from-shell)
-(package! tomatinho)
 
 ;;;;
 ;; ii
@@ -101,3 +99,11 @@
 (package! ii-utils :recipe
   (:host github
    :repo "ii/ii-utils"))
+
+
+;;;;
+; Misc
+;;;;
+(package! exec-path-from-shell)
+(package! tomatinho)
+
