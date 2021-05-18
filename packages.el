@@ -95,4 +95,9 @@
 (package! exec-path-from-shell)
 (package! tomatinho)
 
-
+;;;;
+;; ii
+;;;;
+(package! ii-utils :recipe
+  (:host github
+   :repo "ii/ii-utils"))
