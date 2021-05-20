@@ -1,12 +1,12 @@
 (message "humacs doom-config/packages.el")
 (package! almost-mono-themes)
 
-(use-package! org-roam-protocol
-  :after org-protocol)
 (package! ob-sql-mode)
 (package! ob-elixir)
 (package! ob-tmux)
 (package! ox-gfm) ; org dispatch github flavoured markdown
+(package! org-transclusion
+   :recipe (:local-repo "local/org-transclusion"))
 
 (package! sql)
 (package! sql-indent)
