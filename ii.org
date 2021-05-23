@@ -507,6 +507,17 @@ In addition to the org defaults, we wanna make sure our exports include results,
         (:wrap . "example")))
 #+END_SRC
 ** Support Big Query
+
+If you run into issues with legacy vs standard sql, add the following to =~/.bigqueryrc=
+https://cloud.google.com/bigquery/docs/reference/standard-sql/enabling-standard-sql#bq
+#+begin_src config :tangle no
+[query]
+--use_legacy_sql=false
+
+[mk]
+--use_legacy_sql=false
+#+end_src
+
 #+begin_src elisp
 (defun ii-sql-comint-bq (product options &optional buf-name)
   "Create a bq shell in a comint buffer."
@@ -519,7 +530,18 @@ In addition to the org defaults, we wanna make sure our exports include results,
   (interactive "P")
   (sql-product-interactive 'bq buffer)
   )
+(defun ii-sql-bq-delete-newlines-filter (string)
+  "Deletes newlines in STRING.
+Every newline in STRING will be DELETED!"
+  (let ((no-newlines-string (replace-regexp-in-string "\n" " " string)))
+    (message "STRING:")
+    (message string)
+    (message "NO NEWLINES STRING:")
+    (message no-newlines-string)
+    )
+  )
 (after! sql
+  ;; (sql-del-product 'bq) ; run if iterating / updating product 'bq
   (sql-add-product 'bq "Google Big Query"
                    :free-software nil
                    ;; :font-lock 'bqm-font-lock-keywords ; possibly later?
@@ -535,6 +557,7 @@ In addition to the org defaults, we wanna make sure our exports include results,
                    :sqli-login nil ; probably just need to preauth
                    :sqli-options '("shell" "--quiet" "--format" "pretty")
                    :sqli-comint-func 'ii-sql-comint-bq
+                   :input-filter 'ii-sql-bq-delete-newlines-filter
                  )
   )
 #+end_src
