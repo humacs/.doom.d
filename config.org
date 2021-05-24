@@ -59,12 +59,12 @@ If you are using a mac, you can have  problem with running source blocks or some
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
 #+BEGIN_SRC elisp
-(setq doom-font (font-spec :family "Source Code Pro" :size 10)
-      ;; )(font-spec :family "Source Code Pro" :size 8 :weight 'semi-light)
-      doom-serif-font (font-spec :family "Source Code Pro" :size 10)
-      doom-variable-pitch-font (font-spec :family "Source Code Pro" :size 10)
-      doom-unicode-font (font-spec :family "Input Mono Narrow" :size 12)
-      doom-big-font (font-spec :family "Source Code Pro" :size 10))
+;(setq doom-font (font-spec :family "Source Code Pro" :size 10)
+;      ;; )(font-spec :family "Source Code Pro" :size 8 :weight 'semi-light)
+;      doom-serif-font (font-spec :family "Source Code Pro" :size 10)
+;      doom-variable-pitch-font (font-spec :family "Source Code Pro" :size 10)
+;      doom-unicode-font (font-spec :family "Input Mono Narrow" :size 12)
+;      doom-big-font (font-spec :family "Source Code Pro" :size 10))
 #+END_SRC
 ** Theme
 #+BEGIN_SRC elisp
@@ -159,19 +159,17 @@ This is an adjustment to the default hook, which hides drawers by default
       '((:results . "replace code")
         (:wrap . "SRC example")))
 #+END_SRC
-** OSC52 (copy over ssh/terminal)
-#+BEGIN_SRC elisp
-(after! osc52e
-  (osc52-set-cut-function)
-  )
-#+END_SRC
 ** Pairing
 #+BEGIN_SRC elisp
 (use-package! graphviz-dot-mode)
 (use-package! sql)
-(use-package! osc52e)
-(use-package! iterm)
-(use-package! ob-tmate)
+(use-package! ii-utils)
+(use-package! ii-pair)
+(after! ii-pair
+  (osc52-set-cut-function)
+  )
+;;(use-package! iterm)
+;;(use-package! ob-tmate)
 #+END_SRC
 ** Exporting
 #+BEGIN_SRC elisp
@@ -258,71 +256,6 @@ Creates a property drawer with all the necessary info for our blog.
       fancy-splash-image (concat doom-dashboard-banner-dir doom-dashboard-banner-file)
       )
 #+end_src
-* ii tools
-** ssh find agent
-#+BEGIN_SRC elisp
-(defun ssh-find-agent ()
-"Look for a running SSH agent on the host machine, and set it as our SSH_AUTH_SOCK.
-This is useful for pushing changes to git repos using your ssh key, or for tramping in an org file to a remote machine.
-It assumes you've added an ssh-agent and, if on a remote machine, forwarded it to that machine.
-For more info, see: https://www.ssh.com/ssh/agent
-This function is INTERACTIVE."
-  (interactive)
-  (setenv "SSH_AUTH_SOCK" (shell-command-to-string "find /tmp /run/host/tmp/ -type s -regex '.*/ssh-.*/agent..*$' 2> /dev/null | tail -n 1 | tr -d '\n'"))
-  (message (getenv "SSH_AUTH_SOCK")))
-#+END_SRC
-** Timesheets
-#+NAME: iso-week-to-time
-#+BEGIN_SRC elisp
-(defun iso-week-to-time (year week day)
-  (pcase-let ((`(,m ,d ,y)
-               (calendar-gregorian-from-absolute
-                (calendar-iso-to-absolute (list week day year)))))
-    (encode-time 0 0 0 d m y)))
-
-(define-skeleton ii-timesheet-skel
-  "Prompt the week and year before generating ii timesheet for the user."
-  ""
-  (text-mode)
-  > "#+TITLE: Timesheet: Week " (setq v1 (skeleton-read "Timesheet Week? "))
-  ", " (setq v2 (format-time-string "%Y"))
-  " (" (getenv "USER") ")" \n
-  > "#+AUTHOR: " (getenv "USER") \n
-  > " " \n
-  > "Please refer to the instructions in ii-timesheet.org as required." \n
-  > " " \n
-  > "* Week Summary" \n
-  > " " _ \n
-  > "#+BEGIN: clocktable :scope file :block thisweek :maxlevel 2 :emphasise t :tags t :formula %" \n
-  > "#+END" \n
-  > " " \n
-
-  > "* " (format-time-string "%B %e, %Y" (iso-week-to-time (string-to-number v2) (string-to-number v1) 1)) \n
-  > "** Task X" \n
-  > "* " (format-time-string "%B %e, %Y" (iso-week-to-time (string-to-number v2) (string-to-number v1) 2)) \n
-  > "** Task X" \n
-  > "* " (format-time-string "%B %e, %Y" (iso-week-to-time (string-to-number v2) (string-to-number v1) 3)) \n
-  > "** Task X" \n
-  > "* " (format-time-string "%B %e, %Y" (iso-week-to-time (string-to-number v2) (string-to-number v1) 4)) \n
-  > "** Task X" \n
-  > "* " (format-time-string "%B %e, %Y" (iso-week-to-time (string-to-number v2) (string-to-number v1) 5)) \n
-  > "** Task X" \n
-  > " " \n
-  (org-mode)
-  (save-buffer))
-#+END_SRC
-
-#+NAME: ii-timesheet
-#+BEGIN_SRC elisp
-(defun ii-timesheet ()
-  "Create a timesheet buffer and insert skel as defined in ii-timesheet-skel.
-   This function is INTERACTIVE."
-  (interactive)
-  (require 'cal-iso)
-  (switch-to-buffer (get-buffer-create "*ii-timesheet*"))
-  (ii-timesheet-skel))
-#+END_SRC
-
 * user configs
 
 Place your user config in

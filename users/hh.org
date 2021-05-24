@@ -3,11 +3,11 @@
 #+BEGIN_SRC elisp
 ;; I think these settings are only called on (doom/reload-theme)
 ;; I wonder how we can ensure these get 'reloaded'
-(setq doom-theme 'doom-dark+
-      doom-font (font-spec :family "Source Code Pro" :size 12)
-      doom-serif-font (font-spec :family "Source Code Pro" :size 12)
-      doom-variable-pitch-font (font-spec :family "Source Code Pro" :size 12)
-      doom-unicode-font (font-spec :family "Input Mono Narrow" :size 14)
-      doom-big-font (font-spec :family "Source Code Pro" :size 12)
-      )
+;(setq doom-theme 'doom-dark+
+;      doom-font (font-spec :family "Source Code Pro" :size 12)
+;      doom-serif-font (font-spec :family "Source Code Pro" :size 12)
+;      doom-variable-pitch-font (font-spec :family "Source Code Pro" :size 12)
+;      doom-unicode-font (font-spec :family "Input Mono Narrow" :size 14)
+;      doom-big-font (font-spec :family "Source Code Pro" :size 12)
+;      )
 #+END_SRC
