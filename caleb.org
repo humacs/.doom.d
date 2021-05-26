@@ -1,12 +1,26 @@
-#+TITLE: Caleb's Cool Config
+:DOC-CONFIG:
+# Tangle by default to config.el, which is the most common case
+#+property: header-args:emacs-lisp :tangle config.el
+#+property: header-args:elisp+ :results silent :tangle config.el
+#+property: header-args :mkdirp yes :comments no
+#+startup: fold
+:END:
+#+title: Caleb's Doom Config
+#+author: Caleb Woodbine
+#+email: caleb@ii.coop
+#+oldurl: https://raw.githubusercontent.com/humacs/.doom.d/users/ii.org
+#+attr_html: :style max-width:30%;
+[[file:banners/img/kubemacs.png][file:banners/img/kubemacs.png]]
+#+PROPERTY: header-args:elisp+ :results silent
+#+include: ./ii.org
+
 * My Tweaks
 #+BEGIN_SRC elisp
   (if (getenv "SHARINGIO_PAIR_USER")
       (setq doom-theme 'doom-dark+)
-      (setq doom-theme 'doom-laserwave))
+      (setq doom-theme 'doom-dark+))
 #+END_SRC
 
-** Fonts
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
 #+BEGIN_SRC elisp
@@ -17,4 +31,3 @@
       doom-unicode-font (font-spec :family "Input Mono Narrow" :size 32)
       doom-big-font (font-spec :family "Source Code Pro" :size 30))
 #+END_SRC
-

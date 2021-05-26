@@ -1,47 +1,3 @@
-;;; init.el -*- lexical-binding: t; -*-
-
-;; This file controls what Doom modules are enabled and what order they load
-;; in. Remember to run 'doom sync' after modifying it!
-
-;; NOTE Press 'SPC h d h' (or 'C-h d h' for non-vim users) to access Doom's
-;;      documentation. There you'll find a "Module Index" link where you'll find
-;;      a comprehensive list of Doom's modules and what flags they support.
-
-;; NOTE Move your cursor over a module's name (or its flags) and press 'K' (or
-;;      'C-c c k' for non-vim users) to view its documentation. This works on
-;;      flags as well (those symbols that start with a plus).
-;;
-;;      Alternatively, press 'gd' (or 'C-c c d') on a module to browse its
-;;      directory (for easy access to its source code).
-
-;; patch to emacs@28.0.50
-;; https://www.reddit.com/r/emacs/comments/kqd9wi/changes_in_emacshead2828050_break_many_packages/
-(defmacro define-obsolete-function-alias ( obsolete-name current-name
-                                           &optional when docstring)
-  "Set OBSOLETE-NAME's function definition to CURRENT-NAME and mark it obsolete.
-\(define-obsolete-function-alias \\='old-fun \\='new-fun \"22.1\" \"old-fun's doc.\")
-is equivalent to the following two lines of code:
-\(defalias \\='old-fun \\='new-fun \"old-fun's doc.\")
-\(make-obsolete \\='old-fun \\='new-fun \"22.1\")
-WHEN should be a string indicating when the function was first
-made obsolete, for example a date or a release number.
-See the docstrings of `defalias' and `make-obsolete' for more details."
-  (declare (doc-string 4)
-           (advertised-calling-convention
-           ;; New code should always provide the `when' argument
-           (obsolete-name current-name when &optional docstring) "23.1"))
-  `(progn
-     (defalias ,obsolete-name ,current-name ,docstring)
-     (make-obsolete ,obsolete-name ,current-name ,when)))
-
-;; (setq user-banners-dir (concat humacs-spacemacs-directory  (convert-standard-filename "/banners/"))
-;;       doom-dashboard-banner-file "img/kubemacs.png"
-;;       )
-
-;; debug set-font
-;; (debug-on-entry 'set-frame-font)
-;; (cancel-debug-on-entry 'set-frame-font)
-
 (doom! :input
        ;;chinese
        ;;japanese
@@ -206,5 +162,5 @@ See the docstrings of `defalias' and `make-obsolete' for more details."
 
 
        :config
-       literate
+       ;; literate ; don't use literate when manually tangling
        (default +bindings +smartparens))
