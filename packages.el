@@ -21,3 +21,4 @@
 (package! feature-mode)
 (package! almost-mono-themes)
 (package! graphviz-dot-mode)
+(package! git-link)
