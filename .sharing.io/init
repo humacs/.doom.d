@@ -1,0 +1,10 @@
+#!/bin/bash
+
+cd $(dirname $0)
+GIT_ROOT=$(git rev-parse --show-toplevel)
+cd $GIT_ROOT
+
+if ! git remote -v | grep -q humacs/.doom.d; then
+    echo "Adding git remote upstream for 'https://github.com/humacs/.doom.d'"
+    git remote add upstream https://github.com/humacs/.doom.d
+fi
