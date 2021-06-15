@@ -1,0 +1,13 @@
+#!/bin/bash -x
+
+cd $(dirname $0)
+GIT_ROOT=$(git rev-parse --show-toplevel)
+cd $GIT_ROOT
+DOOM_CONFIG_FILE=ii.org
+if [ -f "${USER}.org" ]; then
+    DOOM_CONFIG_FILE="${USER}.org"
+elif [ -f "${SHARINGIO_PAIR_USER}.org" ]; then
+    DOOM_CONFIG_FILE="${SHARINGIO_PAIR_USER}.org"
+fi
+org-tangle "${DOOM_CONFIG_FILE}"
+doom sync
