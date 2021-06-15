@@ -24,10 +24,10 @@
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
 #+BEGIN_SRC elisp
-(setq doom-font (font-spec :family "Source Code Pro" :size 20)
+(setq doom-font (font-spec :family "Source Code Pro" :size 26)
       ;; )(font-spec :family "Source Code Pro" :size 8 :weight 'semi-light)
-      doom-serif-font (font-spec :family "Source Code Pro" :size 20)
+      doom-serif-font (font-spec :family "Source Code Pro" :size 26)
       doom-variable-pitch-font (font-spec :family "Source Code Pro" :size 30)
-      doom-unicode-font (font-spec :family "Input Mono Narrow" :size 32)
-      doom-big-font (font-spec :family "Source Code Pro" :size 30))
+      doom-unicode-font (font-spec :family "Input Mono Narrow" :size 38)
+      doom-big-font (font-spec :family "Source Code Pro" :size 34))
 #+END_SRC
