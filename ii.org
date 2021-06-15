@@ -505,6 +505,6 @@ See the docstrings of `defalias' and `make-obsolete' for more details."
 [[https://github.com/sshaw/git-link][git-link]] provides a handy way to reference lines of code within org docs, by
 storing their full github link. This makes it easier to follow links in the org
 document when it is read on github.
-#+begin_src sql-mode
+#+begin_src elisp :tangle packages.el
 (package! git-link)
 #+end_src
