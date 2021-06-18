@@ -1,4 +1,4 @@
-## Getting started
+#+TITLE: Getting started
 
 GOAL: Use doom config for your local emacs
 
