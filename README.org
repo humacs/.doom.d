@@ -1,14 +1,35 @@
-#+TITLE: Getting started
+#+TITLE: Humacs .doom.d
+#+DATE:    July 8, 2021
 
-GOAL: Use doom config for your local emacs
+* Introduction
+Macros for Humans, for Emacs doom.
 
-```
-1. Clone https://github.com/humacs/.doom.d into ~/.doom.d
-2. Set DOOMDIR to ~/.doom.d
-3. Ensure EMACSLOADPATH is unset
-4. Add emacs.d/bin and ~/.doom.d/bin to path
-5. Clone https://github.com/hlissner/doom
-6. Emacs into ~/.emacs.d
-7. Run ~/.emacs.d/bin/doom install
-8. Run ~/.doom.d/bin/humacs-sync-config
-```
+* Installation
+Clone the repos
+#+begin_src shell
+git clone --recursive https://github.com/humacs/.doom.d ~/.doom.d
+git clone --recursive https://github.com/hlissner/doom-emacs ~/.emacs.d
+#+end_src
+
+Set /PATH/
+#+begin_src shell
+cat << EOF >> ~/.bashrc
+export PATH="\$PATH:\$HOME/.emacs.d/bin:\$HOME/.doom.d/bin"
+EOF
+#+end_src
+
+Install doom-emacs
+#+begin_src shell
+doom install --no-env
+#+end_src
+
+Initialise Humacs .doom.d config
+#+begin_src shell
+humacs-sync-config
+#+end_src
+
+* The configuration
+The base configuration is located at [[./ii.org][ii.org]].
+
+* Notes
+- Related: https://github.com/humacs/humacs
