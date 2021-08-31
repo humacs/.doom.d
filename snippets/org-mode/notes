@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: notes
+# key: <n
+# --
+
+#+begin_note
+
+#+end_note
