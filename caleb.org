@@ -17,7 +17,7 @@
 * My Tweaks
 #+BEGIN_SRC elisp
   (if (getenv "SHARINGIO_PAIR_USER")
-      (setq doom-theme 'doom-dracula)
+      (setq doom-theme 'doom-challenger-deep)
       (setq doom-theme 'doom-dark+))
 #+END_SRC
 
