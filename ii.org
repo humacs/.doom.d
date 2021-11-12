@@ -211,29 +211,32 @@ In addition to the org defaults, we wanna make sure our exports include results,
   ;; but for the most part, ensure bq command works externally first
   (sql-comint product options buf-name)
   )
-(defun ii-sql-bq (&optional buffer)
-  "Run bq by Google as an inferior process."
-  (interactive "P")
-  (sql-product-interactive 'bq buffer)
-  )
-(after! sql
-  (sql-add-product 'bq "Google Big Query"
-                   :free-software nil
-                   ;; :font-lock 'bqm-font-lock-keywords ; possibly later?
-                   ;; :syntax-alist 'bqm-mode-syntax-table ; invalid
-                   :prompt-regexp "^[[:alnum:]-]+> "
-                   ;; I don't think we have a continuation prompt
-                   ;; but org-babel-execute:sql-mode requires it
-                   ;; otherwise re-search-forward errors on nil
-                   ;; when it requires a string
-                   :prompt-cont-regexp "3a83b8c2z93c89889a4c98r2z34"
-                   ;; :prompt-length 9 ; can't precalculate this
-                   :sqli-program "bq"
-                   :sqli-login nil ; probably just need to preauth
-                   :sqli-options '("shell" "--quiet" "--format" "pretty")
-                   :sqli-comint-func 'ii-sql-comint-bq
-                 )
-  )
+
+;; TODO determine issue with number of args passed to sql-add-product
+;; Using the latest Doom, this causes issues launching Emacs
+;; (defun ii-sql-bq (&optional buffer)
+;;   "Run bq by Google as an inferior process."
+;;   (interactive "P")
+;;   (sql-product-interactive 'bq buffer)
+;;   )
+;; (after! sql
+;;   (sql-add-product 'bq "Google Big Query"
+;;                    :free-software nil
+;;                    ;; :font-lock 'bqm-font-lock-keywords ; possibly later?
+;;                    ;; :syntax-alist 'bqm-mode-syntax-table ; invalid
+;;                    :prompt-regexp "^[[:alnum:]-]+> "
+;;                    ;; I don't think we have a continuation prompt
+;;                    ;; but org-babel-execute:sql-mode requires it
+;;                    ;; otherwise re-search-forward errors on nil
+;;                    ;; when it requires a string
+;;                    :prompt-cont-regexp "3a83b8c2z93c89889a4c98r2z34"
+;;                    ;; :prompt-length 9 ; can't precalculate this
+;;                    :sqli-program "bq"
+;;                    :sqli-login nil ; probably just need to preauth
+;;                    :sqli-options '("shell" "--quiet" "--format" "pretty")
+;;                    :sqli-comint-func 'ii-sql-comint-bq
+;;                  )
+;;   )
 #+end_src
 
 
