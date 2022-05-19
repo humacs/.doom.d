@@ -1,0 +1,76 @@
+# -*- mode: snippet -*-
+# name: reveal
+# key: <reveal
+# --
+
+* LOCAL VARS :noexport:
+ Local Variables:
+ eval: (setenv "MULTIPLEX_URL" (or (getenv "MULTIPLEX_URL") "https://reveal-multiplex.glitch.me"))
+ eval: (set-variable 'org-re-reveal-root (getenv "MULTIPLEX_URL"))
+ eval: (set-variable 'org-re-reveal-multiplex-url (concat (getenv "MULTIPLEX_URL") "/"))
+ eval: (set-variable 'org-re-reveal-multiplex-socketio-url (concat (getenv "MULTIPLEX_URL") "/socket.io/socket.io.js"))
+ End:
+#+REVEAL_MULTIPLEX_SECRET: 16303595814587938032
+#+REVEAL_MULTIPLEX_ID: 1ea00b34ec29b2a6
+#+REVEAL_VERSION: 4
+#+NOREVEAL_DEFAULT_FRAG_STYLE: YY
+#+REVEAL_EXTRA_CSS: ./ii-style.css
+#+NOREVEAL_EXTRA_JS: YY
+#+REVEAL_HLEVEL: 2
+#+REVEAL_MARGIN: 0
+#+REVEAL_WIDTH: 5000
+#+REVEAL_HEIGHT: 800
+#+REVEAL_MAX_SCALE: 0.9
+#+REVEAL_MIN_SCALE: 0.2
+#+REVEAL_PLUGINS: (markdown notes highlight multiplex)
+#+REVEAL_SLIDE_NUMBER: ""
+#+REVEAL_PROGRESS: f
+#+REVEAL_SPEED: 5
+#+REVEAL_THEME: serif
+#+REVEAL_THEME_OPTIONS: beige|black|blood|league|moon|night|serif|simple|sky|solarized|white
+#+REVEAL_TRANS: slide
+#+REVEAL_TRANS_OPTIONS: none|cube|fade|concave|convex|page|slide|zoom
+#+REVEAL_TITLE_SLIDE: <h1>%t</h1>
+#+REVEAL_TITLE_SLIDE: <h3>%s</h3>
+#+REVEAL_TITLE_SLIDE: <p>%a</p>
+
+#+OPTIONS: num:nil
+#+OPTIONS: toc:nil
+#+OPTIONS: mathjax:Y
+#+OPTIONS: reveal_single_file:nil
+#+OPTIONS: reveal_control:t
+#+OPTIONS: reveal_progress:nil
+#+OPTIONS: reveal_history:nil
+#+OPTIONS: reveal_center:t
+#+OPTIONS: reveal_rolling_links:nil
+#+OPTIONS: reveal_keyboard:t
+#+OPTIONS: reveal_overview:t
+#+OPTIONS: reveal_width:1200
+#+OPTIONS: reveal_height:800
+#+OPTIONS: reveal_fragmentinurl:t
+#+OPTIONS: timestamp:nil
+#+OPTIONS: reveal_title_slide:nil
+
+* Set up :noexport:
+Run reveal-multiplex locally
+#+begin_src tmate :window reveal-multiplex
+docker run -it --rm -p 1948:1948 registry.gitlab.com/ii/nz/reveal-multiplex
+#+end_src
+
+Set env for local reveal-multiplex server
+#+begin_src elisp
+(setenv "MULTIPLEX_URL" "http://localhost:1948")
+(normal-mode)
+#+end_src
+
+Link up this folder to the web
+#+begin_src tmate :window knativecon-eu-2022
+export SHARINGIO_PAIR_EXPOSER_HOSTNAME=knativecon-eu-2022 APP_METRICS_ENABLED=false
+echo "Talk available at: http://$SHARINGIO_PAIR_EXPOSER_HOSTNAME.\${SHARINGIO_PAIR_BASE_DNS_NAME:-127.0.0.1.sslip.io:8080}"
+go-http-server
+#+end_src
+
+Generate a token
+#+begin_src shell
+curl -s \${MULTIPLEX_URL:-reveal-multiplex.glitch.me}/token | jq .
+#+end_src
