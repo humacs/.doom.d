@@ -106,6 +106,22 @@ This brings over the lsp behaviour of spacemacs, so working with code feels cons
           (setq lsp-prefer-flymake nil)
           (setq lsp-print-io t))
 #+END_SRC
+** DirENV support
+*** envrc
+https://github.com/purcell/envrc
+#+NAME: envrc Setup
+#+begin_src elisp
+;; (use-package! envrc)
+;; (after! envrc
+;;   (envrc-global-mode)
+;;    )
+#+end_src
+*** direnv
+https://github.com/wbolster/emacs-direnv
+#+NAME: direnv Setup
+#+begin_src elisp
+(use-package direnv :config (direnv-mode))
+#+end_src
 * Languages
 ** Web
 auto-closing tags works different if you are in a terminal or gui.  We want consistent behaviour when editing any sort of web doc.
@@ -238,7 +254,6 @@ In addition to the org defaults, we wanna make sure our exports include results,
 ;;                  )
 ;;   )
 #+end_src
-
 
 * Snippets
 These are helpful text expanders made with yasnippet
@@ -491,6 +506,9 @@ See the docstrings of `defalias' and `make-obsolete' for more details."
 #+end_src
 ** upstream
 #+begin_src elisp :tangle packages.el
+(package! direnv)
+(package! envrc)
+(package! skewer-mode)
 (package! sql)
 (package! ob-sql-mode)
 (package! ob-tmux)
@@ -503,6 +521,8 @@ See the docstrings of `defalias' and `make-obsolete' for more details."
 (package! feature-mode)
 (package! almost-mono-themes)
 (package! graphviz-dot-mode)
+(package! ob-async
+  :recipe (:host github :repo "astahlman/ob-async"))
 #+end_src
 
 [[https://github.com/sshaw/git-link][git-link]] provides a handy way to reference lines of code within org docs, by

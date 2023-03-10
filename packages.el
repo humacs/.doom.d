@@ -9,6 +9,9 @@
    :repo "humacs/ii-pair"
    :files ("*.el")))
 
+(package! direnv)
+(package! envrc)
+(package! skewer-mode)
 (package! sql)
 (package! ob-sql-mode)
 (package! ob-tmux)
@@ -21,4 +24,7 @@
 (package! feature-mode)
 (package! almost-mono-themes)
 (package! graphviz-dot-mode)
+(package! ob-async
+  :recipe (:host github :repo "astahlman/ob-async"))
+
 (package! git-link)
