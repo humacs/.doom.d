@@ -1,3 +1,9 @@
+(package! org-ai :recipe
+  (:host github
+   :branch "master"
+   :repo "rksm/org-ai"
+   :local-repo "org-ai"
+   :files ("*.el" "README.md" "snippets")))
 (package! ii-utils :recipe
   (:host github
    :branch "master"

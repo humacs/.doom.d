@@ -191,6 +191,7 @@ This is an adjustment to the default hook, which hides drawers by default
 #+BEGIN_SRC elisp
 (use-package! graphviz-dot-mode)
 (use-package! sql)
+(use-package! org-ai)
 (use-package! ii-utils)
 (use-package! ii-pair)
 (after! ii-pair
@@ -442,7 +443,7 @@ See the docstrings of `defalias' and `make-obsolete' for more details."
        lua               ; one-based indices? one-based indices
        markdown            ; writing docs for people to ignore
        ;;nim               ; python + lisp at the speed of c
-       ;;nix               ; I hereby declare "nix geht mehr!"
+       nix               ; I hereby declare "nix geht mehr!"
        ;;ocaml             ; an objective camel
        (org +present +pomodoro +pandoc +hugo);                ; organize your plain life in plain text
        ;;php               ; perl's insecure younger brother
@@ -493,6 +494,12 @@ See the docstrings of `defalias' and `make-obsolete' for more details."
 
 ** ii-packages
 #+begin_src elisp :tangle packages.el
+(package! org-ai :recipe
+  (:host github
+   :branch "master"
+   :repo "rksm/org-ai"
+   :local-repo "org-ai"
+   :files ("*.el" "README.md" "snippets")))
 (package! ii-utils :recipe
   (:host github
    :branch "master"
