@@ -191,7 +191,12 @@ This is an adjustment to the default hook, which hides drawers by default
 #+BEGIN_SRC elisp
 (use-package! graphviz-dot-mode)
 (use-package! sql)
-(use-package! org-ai)
+(use-package! org-ai
+  :config
+    (add-hook 'org-mode-hook #'org-ai-mode)
+    (org-ai-install-yasnippets)
+    (setq org-ai-openai-api-token (getenv "OPENAI_API_TOKEN"))
+  )
 (use-package! ii-utils)
 (use-package! ii-pair)
 (after! ii-pair
